@@ -1,0 +1,129 @@
+装饰设计模式
+	BufferedReader fis = new BufferedReader(new Reader("xxx.txt");
+	装饰设计模式的好处是，耦合性不强，被装饰的类的变化与装饰类的变化无关
+	interface Coder {
+		public void code();
+	}
+
+	class Student implements Coder {
+		public void code() {
+			System.out.println("javase");
+			System.out.println("javaweb");
+		}
+
+	}
+
+	class HeiMaStudent implements Coder {
+		private Student s;                      //获取到被包装的类的引用
+		public ItcastStudent(Student s) {       //通过构造函数创建对象的时候,传入被包装的对象
+			this.s = s;
+		}
+		public void code() {                    //对其原有功能进行升级
+			s.code();
+			System.out.println("数据库");
+			System.out.println("ssh");
+			System.out.println("安卓");
+			System.out.println(".....");
+		}
+	} 
+	//使用
+	public class Demo6_Wrap {
+		public static void main(String[] args) {
+			HeiMaStudent hms = new HeiMaStudent(new Student());
+			hms.code();
+		}
+	}
+	
+单例模式
+	保证类在内存中只有一个对象
+	如何做？
+		1私有构造方法，创造本类对象，对外提供公共的访问方法
+			饥饿式，上来就创建对象
+			class Single{
+				private Single();
+				private static Single s = new Single();
+				public Single getInstance(void){
+					return s;
+				}
+			}
+			public static void main (String []args){
+				Single s1 = Single.getInstance();
+			}
+			懒汉式(多线程的时候会有问题，可能创建两个对象)如何解决呢？
+			class Single{
+				private Single(){};
+				private static Single s;
+				public static Single getInstance(){
+					if(s == null){
+						s = new Single();
+					}
+					return s;
+				}
+			}
+			
+			
+			
+			
+			
+			
+			
+简单工厂
+	又叫静态工厂方法模式，它定义一个具体的工厂类负责创建一些类的实例
+	优点：客户端不需要在负责对象的创建，从而明确了各个类的职责
+	缺点：这个静态工厂类负责所有对象的创建，如果有新的对象增加，或者某些对象的创建方式不同，就需要不断的修改工厂类，不利于后期的维护
+	public class AnimalFactory {
+		private AnimalFactory(){}
+
+		//public static Dog createDog() {return new Dog();}
+		//public static Cat createCat() {return new Cat();}
+
+		//改进
+		public static Animal createAnimal(String animalName) {
+			if(“dog”.equals(animalName)) {}
+			else if(“cat”.equals(animale)) {
+
+			}else {
+				return null;
+			}
+		}
+	} 
+工厂设计模式
+	工厂方法模式中抽象工厂类负责定义创建对象的接口，具体对象的创建工作由继承抽象工厂的具体类实现。
+
+	客户端不需要在负责对象的创建，从而明确了各个类的职责，如果有新的对象增加，只需要增加一个具体的类和具体的工厂类即可，不影响已有的代码，后期维护容易，增强了系统的扩展性
+	缺点：需要额外的编写代码，增加了工作量
+
+	动物抽象类：public abstract Animal { public abstract void eat(); }
+	工厂接口：public interface Factory {public abstract Animal createAnimal();}
+	具体狗类：public class Dog extends Animal {}
+	具体猫类：public class Cat extends Animal {}
+	开始，在测试类中每个具体的内容自己创建对象，但是，创建对象的工作如果比较麻烦，就需要有人专门做这个事情，所以就知道了一个专门的类来创建对象。发现每次修改代码太麻烦，用工厂方法改进，针对每一个具体的实现提供一个具体工厂。
+	狗工厂：public class DogFactory implements Factory {
+				public Animal createAnimal() {…}
+        }
+	猫工厂：public class CatFactory implements Factory {
+				public Animal createAnimal() {…}
+        }  
+适配器设计模式
+	在使用监听器的时候, 需要定义一个类事件监听器接口.
+	通常接口中有多个方法, 而程序中不一定所有的都用到, 但又必须重写, 这很繁琐.
+	适配器简化了这些操作, 我们定义监听器时只要继承适配器, 然后重写需要的方法即可.
+	b.适配器原理
+		适配器就是一个类, 实现了监听器接口, 所有抽象方法都重写了, 但是方法全是空的.
+		适配器类需要定义成抽象的,因为创建该类对象,调用空方法是没有意义的
+		目的就是为了简化程序员的操作, 定义监听器时继承适配器, 只重写需要的方法就可以了.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

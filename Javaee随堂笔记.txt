@@ -1,0 +1,245 @@
+数据库
+	增删改查
+	
+	数据库服务器，数据库和表的关系
+	列：字段
+	行：一个记录
+	
+	date:日期数据类型
+	data:数据类型
+	
+	
+	SQL简介
+	
+		记录也叫实体，Java里面一个对象对应一个记录
+		数据库管理系统通过SQL来定义和操作数据
+		sql:struct query language结构化查询语言
+			不是某个特定数据库供应商专有的语言
+		sql 分类	
+			ＤＤＬ：数据定义语言，对对象的操作，creat,alter,drop
+			ＤＭＬ：对表中的数据操作， insert,update,delete
+			ＤＱＬ: 数据查询语言 select
+			ＤＣＬ
+			create database mydb1;
+			use mydb1;
+			creat table student(
+				id int primary key auto_increment,
+				name varchar(50)not null unique,
+				sex varchar(10) default '男'
+			);
+			alter table student add grade date;
+			insert into student (name,sex,grade) values('tom','nu','1');
+			update student set sex = 'nan',grade = 3,where id=2;
+			delete from student where id=2;
+			
+			//查询与tom同一个班级的学生
+			select *from student where grade =(select grade from student where name='tom');
+			
+			select from where group by having order by limit;
+			from where group by having select order by limit;
+			
+			like '_%'
+			
+			聚合函数
+			sum() avg() max() min() count()  ifnull(comm,0)
+	数据完整性
+			
+	DDL
+		CREAT ALTER DROP
+		创建数据库
+			CREATE DATABASE mydb1;
+			CREATE TABLE  stu(
+			);
+			alter
+			drop database |table
+		操作数据库	
+	DML
+		INSERT INTO 表明（列名1，列名2，...）values(值1，值2，。。。);
+		UPDATA 表名 set 列名1=值1，列名2=值2，。。。。where 列名=值
+		DELETE from 表名 where 列名=值
+		
+	DQL
+		SELECT 
+		select from where groupby having orderby limit
+		
+	DCL
+		
+JDBC
+	java database connectivity
+	注册驱动:class.forname("com.mysql.jdbc.driver")
+	获取连接:connection conn = drivermanager.getconnection("jdbc:mysql://localhost:3306/day06","root","abc")
+	得到执行sql语句的对象Statement:PreparedStatement ps = conn.prepareStatement("select *from users where id= ?")
+								   ps.setInt(1,1070);
+	执行sql语句，并返回结果
+		Result rs = ps.execteQuery();
+	处理结果
+		if(rs.next()){
+			....
+		}
+	关闭资源
+		rs.close();
+		ps.close();
+		conn.close();
+	
+	
+	
+XML
+
+
+
+Tomcat服务器
+	常用动态web资源开发技术
+	jsp/servlet,asp,php等
+	在Java中，动态web资源开发技术统称为Javaweb
+	
+	常用web服务器
+		Javaee13种规范：servlet/jsp  jdbc jndi.....
+		weblogic：支持Javaee规范，13种规范
+		
+		tomcat:只支持，jsp/servlet规范，启动快
+
+	http
+	
+	jdbc体验	
+	tomcat集成
+	servlet实践
+
+	
+Servlet
+		运行在web服务器中的小型java程序，即服务器端的小应用程序，处理请求和响应
+		web
+		
+		servlet方法
+			init 
+			service
+			destroy
+	
+		servlet执行过程
+			
+		servlet生命周期
+			单实例，多线程
+			实例化———》初始化——》服务——》销毁
+		servlet创建的三种方式
+			1.实现Javax.servlet.Servlet接口
+			2.继承javax.servlet.GenericServlet类(适配器模式)
+				public class ServletDemon extends GenericServlet{
+					public void service ()
+				}
+			3.继承Javax.servlet.http.HttpServlet(模板方法设计模式)(常用)
+				public class ServletDemon extends HttpServlet{
+					protected void doGet(){
+						
+					}
+					protected void doPost(){
+						
+					}
+				}
+		模板方法设计思想
+			
+		Servlet映射关系细节///
+			多个映射路径可以映射一个servlet
+			网站\下面访问的资源都是servlet
+			
+		Servlet线程安全
+			不要写全局变量，写局部变量
+		
+		Servlet获取配置信息
+		
+		servletcontext
+			代表的是整个应用，一个应用只有一个ServletContext对象，单实例
+			域对象：在一定范围内，使多个Servlet共享数据
+			
+			
+		Servlet相关的对象
+			Servlet   
+			GenericServlet
+			HttpServlet
+			ServletConfig
+			 
+	JDBC复习	
+		加载资源，
+		创建连接
+		获取执行sql语句的对象
+		执行sql语句，得到结果集
+		处理结果
+		关闭资源
+		
+HttpServletResponse ，HttpServletRequest
+	web服务器收到客户端的http请求，会针对每一次请求，分别创建一个用于代表请求的和响应的对象
+	
+	1响应行，
+		
+	2响应头
+	3响应正文
+	
+	
+	tomcat默认的码表是ISO-8859-1，它不支持中文，
+		
+		
+	重定向和转发
+		
+	一直搞不明白，密码和用户名要是明文的话，那不是容易获取了么
+	目的是最终插入到数据库里面
+	
+	属性，字段，
+		
+		
+	请求转发和重定向的区别
+			请求转发：地址不变，请求一次，可以传递数据
+			重定向：地址变化，请求两次，不可以传递数据
+	
+	请求包含
+
+会话管理
+	会话管理
+		保持各个客户端自己的数据
+	cookie
+		客户端技术，程序把每个用户的数据以cookie的形式写给用户各自的浏览器。当用户使用浏览器再去访问服务器的web资源时候，就会带着各自的数据去
+	HttpSession
+		session是服务器端技术，利用这个技术，服务器在运行时候可以为每一个
+		一个浏览器独占一个session 对象
+		
+		session依赖cookie
+		
+		
+		
+	多个服务器做集群
+		nigix
+
+
+JavaWeb开发模式
+
+图书管理系统
+
+
+
+
+
+网站的支付功能
+
+用户---->网站（根据银行的接入规范，生成银行需要的数据，然后通知用户浏览器重新定向到银行，并把这些数据带给银行，以完成支付）
+通过第三番支付公司与银行对接
+
+第三方支付
+	易宝
+	支付宝
+	财付通
+	...
+	
+
+
+
+
+
+	
+		
+		
+		
+		
+		
+		
+		
+
+	
+
+		
